@@ -24,7 +24,13 @@ Vagrant.configure("2") do |config|
         binutils-arm-linux-gnueabihf \
         gdb-multiarch
      apt-get -q -y autoremove
-     apt-get -q -y clean"
+     apt-get -q -y clean
+     wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
+     tar -xf autoconf-2.72.tar.xz
+     cd autoconf-2.72/
+     ./configure
+     make 
+     make install"
   
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder "otp", "/home/vagrant/otp", type: "rsync"
