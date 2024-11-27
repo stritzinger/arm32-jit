@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+### Change here for more memory/cores ###
+VM_MEMORY=16384
+VM_CORES=8
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-22.04"
+
+  config.vm.disk :disk, size: "64GB", primary: true
+  
+  config.vm.provider "vmware_destop" do |v, override|
+    v.vmx['memsize'] = VM_MEMORY
+    v.vmx['numvcpus'] = VM_CORES
+  end
+
+  config.vm.provision "shell", privileged: true, inline:
+    "apt-get -q update
+     apt-get -q -y install \
+        autoconf gcc make qemu qemu-user \
+        gcc-arm-linux-gnueabihf \
+        g++-arm-linux-gnueabihf \
+        binutils-arm-linux-gnueabihf \
+        gdb-multiarch
+     apt-get -q -y autoremove
+     apt-get -q -y clean"
+  
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "otp", "/home/vagrant/otp", type: "rsync"
+
+  config.trigger.after :up do |trigger|
+      trigger.info = "rsync auto"
+      trigger.run = {inline: "zsh -c 'vagrant rsync-auto &'"}
+  end
+end

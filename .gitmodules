@@ -1,0 +1,4 @@
+[submodule "otp"]
+	path = otp
+	url = git@github.com:stritzinger/otp.git
+    branch = arm32-jit
