@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
      make install"
   
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "otp", "/home/vagrant/otp", type: "rsync"
+  config.vm.synced_folder ".", "/home/vagrant/arm32-jit", type: "rsync"
 
   config.trigger.after :up do |trigger|
       trigger.info = "rsync auto"

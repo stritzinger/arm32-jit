@@ -25,7 +25,7 @@ running the scripts in the VM.
 
 Go into the `otp` folder inside the VM:
 
-    cd otp
+    cd arm32-jit/otp
 
 There are three scripts that can be used to compile OTP and run GDB:
 
