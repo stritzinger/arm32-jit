@@ -34,10 +34,18 @@ Vagrant.configure("2") do |config|
   
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ".", "/home/vagrant/arm32-jit", type: "rsync",
-      rsync__args: ["--verbose", "--archive", "-z", "--copy-links"]
+    rsync__args: ["--archive", "-z", "--copy-links", "--update"]
 
+  # We start vagrant rsync-auto in the background
+  # Make sure to stop it before changing the machine state
   config.trigger.after :up do |trigger|
-      trigger.info = "rsync auto"
-      trigger.run = {inline: "zsh -c 'vagrant rsync-auto &'"}
+    trigger.info = "rsync auto"
+    trigger.run = {inline: "zsh -c 'vagrant rsync-auto &'"}
+  end
+
+  # Stop rsync-auto when shutting down the machine
+  config.trigger.after :halt do |trigger|
+    trigger.info= "stop rsync auto"
+    trigger.run= {inline: "pkill -f 'vagrant rsync-auto'"}
   end
 end
