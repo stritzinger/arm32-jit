@@ -22,7 +22,9 @@ Vagrant.configure("2") do |config|
         gcc-arm-linux-gnueabihf \
         g++-arm-linux-gnueabihf \
         binutils-arm-linux-gnueabihf \
-        gdb-multiarch
+        gdb-multiarch \
+        ncurses-dev \
+        clang
      apt-get -q -y autoremove
      apt-get -q -y clean
      wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.72.tar.xz
@@ -30,7 +32,17 @@ Vagrant.configure("2") do |config|
      cd autoconf-2.72/
      ./configure
      make 
-     make install"
+     make install
+     cd ..
+     mkdir -p bin
+     cd bin
+     curl -O https://raw.githubusercontent.com/kerl/kerl/master/kerl
+     chmod a+x kerl
+     cd ..
+     export PATH=/home/vagrant/bin:$PATH
+     kerl cleanup all
+     kerl build-install 27.0 27.0 /usr/local/lib/erlang/27.0
+     . /usr/local/lib/erlang/27.0/activate"
   
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ".", "/home/vagrant/arm32-jit", type: "rsync",
