@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
     "apt-get -q update
      apt-get -q -y install \
         autoconf gcc make qemu qemu-user \
+        pkg-config \
         gcc-arm-linux-gnueabihf \
         g++-arm-linux-gnueabihf \
         binutils-arm-linux-gnueabihf \
@@ -42,7 +43,7 @@ Vagrant.configure("2") do |config|
      export PATH=/home/vagrant/bin:$PATH
      kerl cleanup all
      kerl build-install 27.0 27.0 /usr/local/lib/erlang/27.0
-     . /usr/local/lib/erlang/27.0/activate"
+     echo . /usr/local/lib/erlang/27.0/activate >> .bashrc"
   
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.synced_folder ".", "/home/vagrant/arm32-jit", type: "rsync",
