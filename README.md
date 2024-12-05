@@ -21,18 +21,12 @@ You can use Vagrant with either a VMware desktop solution (Workspace, Fusion, wh
 
 ## Start the VM
 
-Vagrant will first try to start the VM via the VMware provider,
-and then it'll fall back to VirtualBox:
+Note that Vagrant will first try to start the VM via the VMware provider,
+and then it'll fall back to VirtualBox.
+You can set the default provider as described [here](https://developer.hashicorp.com/vagrant/docs/providers/default).
 
 ```bash
 vagrant up
-```
-
-You can also explicitly specify the provider by using one of the targets from `./Makefile`:
-
-```bash
-make vuw  # VMware
-make vub  # VirtualBox
 ```
 
 Afterwards, connect to the VM:
