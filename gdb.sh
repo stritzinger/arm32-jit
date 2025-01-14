@@ -6,10 +6,11 @@ gdb-multiarch -q --nh \
   -ex 'dir ./otp/erts/emulator/armv7hl-unknown-linux-gnueabi/opt/jit/asmjit' \
   -ex 'dir ./otp/erts/emulator/armv7hl-unknown-linux-gnueabi/opt/jit/asmjit/core' \
   -ex 'dir ./otp/erts/emulator/armv7hl-unknown-linux-gnueabi/opt/jit/asmjit/arm' \
+  -ex 'dir ./otp/erts/emulator/beam' \
+  -ex 'dir ./otp/erts/emulator/beam/jit' \
+  -ex 'dir ./otp/erts/emulator/beam/jit/arm/32' \
   -ex 'target remote localhost:1234' \
   -ex 'break main' \
+  -ex 'break beam_jit_args.hpp:123' \
   -ex continue \
 ;
-
-# dir /home/ziopio/Desktop/otp/erts/emulator/asmjit/core/
-# break /home/ziopio/Desktop/otp/erts/emulator/armv7hl-unknown-linux-gnueabi/opt/jit/asmjit/core/codeholder.h:998
