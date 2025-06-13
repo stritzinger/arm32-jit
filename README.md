@@ -89,3 +89,62 @@ processor and waits GDB for step-by-step debuggging.
 
 Starts a GDB client and sets few example breakpoints. Code execution is
 controlled from the GDB client.
+
+## Inspecting jitted code
+
+We run OTP with `JDdump true`, this dumps all jitted assembly into .asm files.
+
+For example, you can find jitted assembly of global functions
+in the current working directory.
+
+The global assembler output is written to `beam_asm_global.asm` in the working directory inside the VM.
+
+```shell
+vagrant@vagrant:~/arm32-jit$ cat beam_asm_global.asm
+global::apply_fun_shared:
+    eor r2, r2, r2
+    ldr r3, [r4, 64]
+    ldr r1, [r4, 68]
+    mov r0, r1
+L100:
+    cmp r0, 59
+    b.eq L99
+    tst r0, 1
+    b.ne L101
+    ldr r12, [r0, -1]
+    ldr r0, [r0, 3]
+    str r12, [r4, r2 lsl 2]
+    movw r12, 1023
+    add r2, r2, 1
+    cmp r2, r12
+    b.lo L100
+    movw r0, 15440
+    b L102
+L101:
+    movw r0, 3152
+L102:
+    str r3, [r4, 64]
+    str r1, [r4, 68]
+    str r0, [r8, 56]
+    movw r3, 53184
+    movt r3, 16459
+    b global::raise_exception
+L99:
+    lsl r2, r2, 8
+    add r2, r2, 20
+    bx lr
+```
+If you want to comfortably inspect the file on you host, you can copy any file from the VM to the current host folder using the SCP plugin
+
+```shell
+    # Install scp plugin if you do not have it
+    vagrant plugin install vagrant-scp
+    # and then
+    vagrant scp default:/home/vagrant/arm32-jit/beam_asm_global.asm .
+```
+
+Or more simply cat the file via ssh
+
+```shell
+    vagrant ssh -c "sudo cat /home/vagrant/arm32-jit/beam_asm_global.asm" > beam_asm_global.asm
+```
