@@ -23,15 +23,35 @@ fi
 # Ensure ARM32 binaries can be executed directly via binfmt_misc.
 cat >/usr/local/bin/qemu-arm-binfmt <<'EOF'
 #!/usr/bin/env bash
-exec /usr/bin/qemu-arm -L /usr/arm-linux-gnueabihf "$@"
+set -euo pipefail
+
+# With binfmt 'P' preserve flag, kernel passes:
+#   $1 = target path, $2 = original argv[0], $3.. = original argv[1..]
+target="$1"
+if [ "$#" -ge 2 ]; then
+    argv0="$2"
+    shift 2
+    exec /usr/bin/qemu-arm -L /usr/arm-linux-gnueabihf -0 "$argv0" "$target" "$@"
+else
+    exec /usr/bin/qemu-arm -L /usr/arm-linux-gnueabihf "$target"
+fi
 EOF
 chmod 755 /usr/local/bin/qemu-arm-binfmt
 
 update-binfmts --disable qemu-arm >/dev/null 2>&1 || true
 update-binfmts --remove qemu-arm /usr/local/bin/qemu-arm-binfmt >/dev/null 2>&1 || true
-update-binfmts --install qemu-arm /usr/local/bin/qemu-arm-binfmt \
-    --magic '\x7f\x45\x4c\x46\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00' \
-    --mask '\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+
+cat >/usr/share/binfmts/qemu-arm <<'EOF'
+package qemu-user-static
+interpreter /usr/local/bin/qemu-arm-binfmt
+magic \x7f\x45\x4c\x46\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00
+offset 0
+mask \xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff
+fix_binary yes
+preserve yes
+EOF
+
+update-binfmts --import qemu-arm
 update-binfmts --enable qemu-arm
 systemctl restart systemd-binfmt || true
 
