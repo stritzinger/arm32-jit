@@ -1,7 +1,7 @@
 cd otp && \
-./otp_build boot -a && \
+make TYPE=debug -j"$(nproc)" all && \
 rm -rf RELEASE/* && \
 mkdir -p RELEASE && \
-./otp_build release -a $(pwd)/RELEASE && \
+make TYPE=debug RELEASE_ROOT=$(pwd)/RELEASE release && \
 cd RELEASE && \
 ./Install -cross -minimal $(pwd)
