@@ -1,8 +1,16 @@
 # Development Setup for ARM32 JIT Compilation
 
-The ARM32 JIT is working.
+The ARM32 JIT is working! Yeeee!
 
-You can try it yourself by following this guide.
+Try it yourself by following this guide!
+
+#### **Things to keep in mind**
+
+- Not ready for production
+- Good for use in tests and to do experimentations or benchmarks
+- Based on top of OTP 27.0
+- Only partially tested with OTP Suites
+- Arm32 JIT emitters are not fully optimized
 
 ## Usage of the Ubuntu VM
 
