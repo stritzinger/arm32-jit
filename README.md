@@ -59,12 +59,17 @@ The advantage is that this does not slow down builds in the VM.
 The idea behind this setup is to keep and edit files on the host system while
 running scripts in the VM.
 
+You can use Vagrant with either a VMware desktop solution (Workspace, Fusion,
+whatever else there might be...) or VirtualBox.
+
 ### Initialize the OTP submodule
+
+Do this outside the VM to be able to edit files on your host system.
+Vagrant will keep them synched.
+
 ```shell
 git submodule update --init
 ```
-You can use Vagrant with either a VMware desktop solution (Workspace, Fusion,
-whatever else there might be...) or VirtualBox.
 
 ## Quick release build
 
