@@ -1,1 +1,1 @@
-./run_debug.sh & ./gdb.sh
+./run_debug.sh & ./gdb-debug.sh
