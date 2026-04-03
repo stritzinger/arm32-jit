@@ -1,4 +1,4 @@
-# Development Setup for ARM32 JIT Compilation
+# Development Setup for the ARM32 JIT
 
 The ARM32 JIT is working! Yeeee!
 
