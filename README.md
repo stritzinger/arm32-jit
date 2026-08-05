@@ -6,11 +6,11 @@ Try it yourself by following this guide!
 
 #### **Things to keep in mind**
 
-- Not ready for production
-- Good for use in tests and to do experimentations or benchmarks
-- Based on top of OTP 27.0
+- Based on OTP 27 and following maintainance versions
+  - Planned to be available on the latest OTP 
 - Only partially tested with OTP Suites
 - Arm32 JIT emitters are not fully optimized
+- Runs on real 32-bit arm processors (like the [GRiSP2](https://www.grisp.org/hardware))
 
 ## Usage of the Ubuntu VM
 
